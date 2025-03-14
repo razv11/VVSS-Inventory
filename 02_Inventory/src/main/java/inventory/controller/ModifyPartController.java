@@ -5,6 +5,7 @@ import inventory.model.InhousePart;
 import inventory.model.OutsourcedPart;
 import inventory.model.Part;
 import inventory.service.InventoryService;
+import inventory.validator.PartValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,12 +26,8 @@ import static inventory.controller.MainScreenController.getModifyPartIndex;
 public class ModifyPartController implements Initializable, Controller {
     
     // Declare field
-    private Stage stage;
-    private Parent scene;
     private int partIndex= getModifyPartIndex();
-    private String errorMessage = new String();
     private boolean isOutsourced;
-    private int partId;
 
     private InventoryService service;
     
@@ -64,8 +61,6 @@ public class ModifyPartController implements Initializable, Controller {
     @FXML
     private TextField minTxt;
 
-    public ModifyPartController(){}
-
     public void setService(InventoryService service){
         this.service=service;
         fillWithData();
@@ -74,7 +69,7 @@ public class ModifyPartController implements Initializable, Controller {
     private void fillWithData(){
         Part part = service.getAllParts().get(partIndex);
 
-        partId = service.getAllParts().get(partIndex).getPartId();
+        int partId = service.getAllParts().get(partIndex).getPartId();
         partIdTxt.setText(Integer.toString(part.getPartId()));
         nameTxt.setText(part.getName());
         inventoryTxt.setText(Integer.toString(part.getInStock()));
@@ -95,15 +90,6 @@ public class ModifyPartController implements Initializable, Controller {
         }
     }
 
-
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
-    }
-
     /**
      * Method to add to button handler to switch to scene passed as source
      * @param event
@@ -112,9 +98,10 @@ public class ModifyPartController implements Initializable, Controller {
      */
     @FXML
     private void displayScene(ActionEvent event, String source) throws IOException {
+        Parent scene;
+        Stage stage;
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         FXMLLoader loader= new FXMLLoader(getClass().getResource(source));
-        //scene = FXMLLoader.load(getClass().getResource(source));
         scene = loader.load();
         Controller ctrl=loader.getController();
         ctrl.setService(service);
@@ -158,7 +145,7 @@ public class ModifyPartController implements Initializable, Controller {
         alert.setHeaderText("Confirm Cancellation");
         alert.setContentText("Are you sure you want to cancel modifying part " + nameTxt.getText() + "?");
         Optional<ButtonType> result = alert.showAndWait();
-        if(result.get() == ButtonType.OK) {
+        if(result.isPresent() && result.get() == ButtonType.OK) {
             System.out.println("Ok selected. Part modification cancelled.");
             displayScene(event, "/fxml/MainScreen.fxml");
         } else {
@@ -174,6 +161,7 @@ public class ModifyPartController implements Initializable, Controller {
      */
     @FXML
     void handleModifyPartSave(ActionEvent event) throws IOException {
+        String errorMessage = "";
         String partId = partIdTxt.getText();
         String name = nameTxt.getText();
         String price = priceTxt.getText();
@@ -184,18 +172,20 @@ public class ModifyPartController implements Initializable, Controller {
         errorMessage = "";
         
         try {
-            errorMessage = Part.isValidPart(name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), errorMessage);
-            if(errorMessage.length() > 0) {
+            errorMessage = PartValidator.isValidPart(name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), errorMessage);
+            if(errorMessage.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Error Adding Part!");
                 alert.setHeaderText("Error!");
                 alert.setContentText(errorMessage);
                 alert.showAndWait();
             } else {
-                if(isOutsourced == true) {
-                    service.updateOutsourcedPart(partIndex, Integer.parseInt(partId), name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), partDynamicValue);
+                if(isOutsourced) {
+                    OutsourcedPart outsourcedPart = new OutsourcedPart(Integer.parseInt(partId), name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), partDynamicValue);
+                    service.updateOutsourcedPart(partIndex, outsourcedPart);
                 } else {
-                    service.updateInhousePart(partIndex, Integer.parseInt(partId), name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), Integer.parseInt(partDynamicValue));
+                    InhousePart inhousePart = new InhousePart(Integer.parseInt(partId), name, Double.parseDouble(price), Integer.parseInt(inStock), Integer.parseInt(min), Integer.parseInt(max), Integer.parseInt(partDynamicValue));
+                    service.updateInhousePart(partIndex, inhousePart);
                 }
                 displayScene(event, "/fxml/MainScreen.fxml");
             }
@@ -211,4 +201,8 @@ public class ModifyPartController implements Initializable, Controller {
 
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 }

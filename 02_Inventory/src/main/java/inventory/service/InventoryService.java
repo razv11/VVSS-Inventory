@@ -41,18 +41,15 @@ public class InventoryService {
         return repo.lookupProduct(search);
     }
 
-    public void updateInhousePart(int partIndex, int partId, String name, double price, int inStock, int min, int max, int partDynamicValue){
-        InhousePart inhousePart = new InhousePart(partId, name, price, inStock, min, max, partDynamicValue);
+    public void updateInhousePart(int partIndex, InhousePart inhousePart){
         repo.updatePart(partIndex, inhousePart);
     }
 
-    public void updateOutsourcedPart(int partIndex, int partId, String name, double price, int inStock, int min, int max, String partDynamicValue){
-        OutsourcedPart outsourcedPart = new OutsourcedPart(partId, name, price, inStock, min, max, partDynamicValue);
+    public void updateOutsourcedPart(int partIndex, OutsourcedPart outsourcedPart){
         repo.updatePart(partIndex, outsourcedPart);
     }
 
-    public void updateProduct(int productIndex, int productId, String name, double price, int inStock, int min, int max, ObservableList<Part> addParts){
-        Product product = new Product(productId, name, price, inStock, min, max, addParts);
+    public void updateProduct(int productIndex, Product product){
         repo.updateProduct(productIndex, product);
     }
 
