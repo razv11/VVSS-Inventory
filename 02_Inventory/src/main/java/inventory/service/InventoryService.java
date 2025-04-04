@@ -16,6 +16,18 @@ public class InventoryService {
         repo.addPart(inhousePart);
     }
     public void addOutsourcePart(String name, double price, int inStock, int min, int  max, String partDynamicValue){
+        if(name.isEmpty()) {
+            throw new IllegalArgumentException("name is empty");
+        }
+
+        if(name.length() > 255) {
+            throw new IllegalArgumentException("name is too long");
+        }
+
+        if(price <= 0) {
+            throw new IllegalArgumentException("price is not > 0");
+        }
+
         OutsourcedPart outsourcedPart = new OutsourcedPart(repo.getAutoPartId(), name, price, inStock, min, max, partDynamicValue);
         repo.addPart(outsourcedPart);
     }
@@ -60,5 +72,4 @@ public class InventoryService {
     public void deleteProduct(Product product){
         repo.deleteProduct(product);
     }
-
 }

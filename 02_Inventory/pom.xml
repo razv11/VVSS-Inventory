@@ -79,11 +79,15 @@
       <artifactId>log4j</artifactId>
       <version>1.2.17</version>
     </dependency>
+
+
     <dependency>
-      <groupId>org.controlsfx</groupId>
-      <artifactId>controlsfx</artifactId>
-      <version>11.0.1</version>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>4.8.0</version> <!-- Poți utiliza cea mai recentă versiune stabilă a Mockito -->
+      <scope>test</scope>
     </dependency>
+
   </dependencies>
 
   <build>
