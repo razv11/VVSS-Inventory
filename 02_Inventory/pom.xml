@@ -84,7 +84,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>4.8.0</version> <!-- Poți utiliza cea mai recentă versiune stabilă a Mockito -->
+      <version>5.5.0</version>
       <scope>test</scope>
     </dependency>
 

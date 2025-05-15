@@ -95,9 +95,23 @@ public class Inventory {
      * @return 
      */
     public Part lookupPart(String searchItem) {
-        for(Part p:allParts) {
-            if(p.getName().contains(searchItem) || (p.getPartId()+"").equals(searchItem)) return p;
+        boolean exists = false;
+        Part part = null;
+        if (searchItem != null && !searchItem.trim().isEmpty()) {
+            for (Part p : allParts) {
+                if ((p.getName() != null && p.getName().toLowerCase().contains(searchItem.toLowerCase())) ||
+                        String.valueOf(p.getPartId()).equals(searchItem)) {
+
+                    exists = true;
+                    part = p;
+                }
+            }
         }
+
+        if(exists) {
+            return part;
+        }
+
         return null;
     }
     

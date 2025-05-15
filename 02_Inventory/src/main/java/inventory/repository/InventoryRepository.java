@@ -7,10 +7,11 @@ import javafx.collections.ObservableList;
 import java.io.*;
 import java.util.StringTokenizer;
 
-public class InventoryRepository {
+public class InventoryRepository implements InventoryRepositoryInterface {
 
 	private static String filename = "data/items.txt";
 	private Inventory inventory;
+
 	public InventoryRepository(){
 		this.inventory=new Inventory();
 		readParts();
@@ -88,31 +89,45 @@ public class InventoryRepository {
 		inventory.setProducts(listP);
 	}
 
-	private Product getProductFromString(String line){
-		Product product=null;
-		if (line==null|| line.equals("")) return null;
-		StringTokenizer st=new StringTokenizer(line, ",");
-		String type=st.nextToken();
-		if (type.equals("P")) {
-			int id= Integer.parseInt(st.nextToken());
+	private Product getProductFromString(String line) {
+		Product product = null;
+		if (line == null || line.trim().isEmpty()) return null;
+
+		StringTokenizer st = new StringTokenizer(line, ",");
+		try {
+			String type = st.nextToken();
+			if (!type.equals("P")) return null;
+
+			int id = Integer.parseInt(st.nextToken());
 			inventory.setAutoProductId(id);
-			String name= st.nextToken();
+			String name = st.nextToken();
 			double price = Double.parseDouble(st.nextToken());
 			int inStock = Integer.parseInt(st.nextToken());
 			int minStock = Integer.parseInt(st.nextToken());
 			int maxStock = Integer.parseInt(st.nextToken());
-			String partIDs=st.nextToken();
 
-			StringTokenizer ids= new StringTokenizer(partIDs,":");
-			ObservableList<Part> list= FXCollections.observableArrayList();
-			while (ids.hasMoreTokens()) {
-				String idP = ids.nextToken();
-				Part part = inventory.lookupPart(idP);
-				if (part != null)
-					list.add(part);
+			// Handle empty partIDs gracefully
+			ObservableList<Part> parts = FXCollections.observableArrayList();
+			if (st.hasMoreTokens()) {
+				String partIDs = st.nextToken();
+				if (!partIDs.trim().isEmpty()) {
+					StringTokenizer ids = new StringTokenizer(partIDs, ":");
+					while (ids.hasMoreTokens()) {
+						String idP = ids.nextToken();
+						Part part = inventory.lookupPart(idP);
+						if (part != null) {
+							parts.add(part);
+						}
+					}
+				}
 			}
-			product = new Product(id, name, price, inStock, minStock, maxStock, list);
-			product.setAssociatedParts(list);
+
+			product = new Product(id, name, price, inStock, minStock, maxStock, parts);
+			product.setAssociatedParts(parts);
+		} catch (Exception e) {
+			System.err.println("Error parsing product line: " + line);
+			e.printStackTrace();
+			return null;
 		}
 		return product;
 	}

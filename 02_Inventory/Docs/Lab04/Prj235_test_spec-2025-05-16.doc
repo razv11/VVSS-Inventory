@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><title>testspec Proiect235 - niir3386_IntT</title>
+<link type="text/css" rel="stylesheet" href="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/css/tl_documents.css" />
+<style type="text/css" media="print">.notprintable { display:none;}</style>
+</head>
+<body>
+<div>
+<div style="float:right;">TestLink Community [configure $tlCfg-&gt;document_generator-&gt;company_name]</div>
+<div>&nbsp;</div><hr />
+<p style="text-align: center;"><img alt="TestLink logo" title="configure using $tlCfg->document_generator->company_logo"  width= height= src="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/images/tl-logo-transparent-25.png" /></p></div>
+<div class="doc_title"><p>Test Specification</p></div>
+<div class="doc_title" style="text-align:left;margin: auto;"><p>Test Project: Proiect235<br/>Test Suite: Proiect235 - niir3386_IntT</p></div>
+<div class="summary"><p id="printedby">Printed by TestLink on 16/05/2025</p></div>
+<div class="pagefooter" id="copyright">2012 &copy; TestLink Community</div>
+<h1 class="general" style="page-break-before: always">Table Of Contents</h1><div class="toc"><p style="padding-left: 20px;"><b><a href="#toc_1">1.niir3386_IntT</a></b></p>
+<p style="padding-left: 45px;"><a href="#toc_tc26815">Prj235-149: UnitTest_E-R-S</a></p><p style="padding-left: 45px;"><a href="#toc_tc26817">Prj235-150: IntegrationTest_S+R_mock_E</a></p><p style="padding-left: 45px;"><a href="#toc_tc26819">Prj235-151: IntegrationTest_S+R+E</a></p></div><h1 class="doclevel" >Scope</h1>
+<div class="txtlevel"><p>Proiect de testare pentru studentii din grupa 235.</p></div>
+ <br/><a name='toc_1'></a>
+<h1 class='doclevel'>1.Test Suite : niir3386_IntT</h1>
+<a name="toc_tc26815"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case Prj235-149: UnitTest_E-R-S&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">niir3386</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Testare unitara pentru clasa Inventory (E). Se testeaza metoda #addProduct</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><ul>
+	<li>Instanta a clasei Inventory creata</li>
+	<li>Instanta valida a clasei Product creata</li>
+</ul>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >inventory.model.InventoryUnitTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >inventory.model.InventoryUnitTest#testAddProduct</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">niir3386_F01:  Adaugare-piesa [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc26817"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case Prj235-150: IntegrationTest_S+R_mock_E&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">niir3386</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Testare de integrare folosind instante reale ale claselor&nbsp;InventoryService (S) si InventoryRepository (R) si o instanta de tip mock pentru clasa Inventory (E). Se testeaza metoda #getAllParts</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><ul>
+	<li>Clasele S si R au fost testate unitar</li>
+	<li>Instante reale pentru InventoryService si InventoryRepository</li>
+	<li>Instanta mock pentru Inventory</li>
+	<li>
+	<pre>
+when(mockInventory.getAllParts()).thenReturn(mockParts)</pre>
+	</li>
+	<li>mockParts este de tip&nbsp;ObservableList</li>
+</ul>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >inventory.integration.InventoryServiceIntegrationTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >inventory.integration.InventoryServiceIntegrationTest#testGetAllParts</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">niir3386_F02:  Cautare-piesa-dupa-nume [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc26819"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case Prj235-151: IntegrationTest_S+R+E&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">niir3386</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Se testeaza integrarea InventoryService (S), InventoryRespository (R)&nbsp;si Inventory (E). Se testeaza metoda #testAddInhousePartIntegration folosind instante reale pentru toate clasele</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><ul>
+	<li>Clasele S, R si E au fost testate unitar</li>
+	<li>Instante reale pentru S, R si E</li>
+</ul>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >inventory.integration.FullIntegrationTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >inventory.integration.FullIntegrationTest#testAddInhousePartIntegration</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">niir3386_F01:  Adaugare-piesa [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+
+</body>
+</html>
